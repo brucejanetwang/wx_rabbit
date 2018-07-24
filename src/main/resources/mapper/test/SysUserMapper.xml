@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.northtech.WeChat.test.mapper.SysUserMapper">
+
+    <!-- find user -->
+    <select id="find" parameterType="int" resultType="com.northtech.WeChat.test.bean.SysUser">
+        SELECT name as username,password  as password, 21 as age,id FROM sys_user  WHERE ID='1'
+    </select>
+
+</mapper>
