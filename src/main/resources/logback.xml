@@ -12,7 +12,7 @@
     <property name="LOG_PATH" value="wechartlog/logs" />
     
     <appender name="baselog" class="ch.qos.logback.core.rolling.RollingFileAppender">  
-        <File>${LOG_PATH}/springboot.log</File>  
+        <File>${LOG_PATH}/weixinserver.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">  
         	<!--日志文件输出的文件名-->
             <fileNamePattern>${LOG_PATH}/wechart.log.%d.%i</fileNamePattern>
