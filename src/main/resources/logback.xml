@@ -30,7 +30,7 @@
     </appender>  
     
     <!-- 日志输出级别 -->
-    <root level="info">  
+    <root level="info">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="baselog" />  
     </root>  

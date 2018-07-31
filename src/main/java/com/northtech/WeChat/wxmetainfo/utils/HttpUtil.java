@@ -1,9 +1,9 @@
 package com.northtech.WeChat.wxmetainfo.utils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import com.northtech.Common.utils.MyX509TrustManager;
+
+import javax.net.ssl.*;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -11,6 +11,52 @@ import java.net.URLConnection;
 public class HttpUtil {
 	private final static int CONNECT_TIMEOUT = 5000; // in milliseconds
 	private final static String DEFAULT_ENCODING = "UTF-8";
+
+	public static String httpsGetRequest(String requestUrl,String outputSt){
+		return httpsRequest(requestUrl,"GET",outputSt);
+	}
+	public static String httpsPostRequest(String requestUrl,String outputSt){
+		return httpsRequest(requestUrl,"POST",outputSt);
+	}
+	public static String httpsRequest(String requestUrl,String requestMethod,String outputSt) {
+		try {
+			//创建SSLContext
+			SSLContext sslContext = SSLContext.getInstance("SSL","SunJSSE");
+			TrustManager[] tm = {new MyX509TrustManager()};
+			//初始化
+			sslContext.init(null, tm, new java.security.SecureRandom());
+			SSLSocketFactory ssf = sslContext.getSocketFactory();
+			URL url = new URL(requestUrl);
+			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+			conn.setRequestMethod(requestMethod);
+			//设置当前实例使用的SSL
+			conn.setSSLSocketFactory(ssf);
+			conn.setDoOutput(true);
+			conn.setDoInput(true);
+			conn.connect();
+			//往服务器端写内容
+			if(null!=outputSt){
+				OutputStream os = conn.getOutputStream();
+
+				os.write(outputSt.getBytes(DEFAULT_ENCODING));
+				os.close();
+			}
+			//读取客户端返回的内容
+			InputStream is  = conn.getInputStream();
+			InputStreamReader isr = new InputStreamReader(is,DEFAULT_ENCODING);
+			BufferedReader br = new BufferedReader(isr);
+
+			StringBuffer buffer = new StringBuffer();
+			String line = null;
+			while((line = br.readLine())!=null){
+				buffer.append(line);
+			}
+			return buffer.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
 
 	public static String postData(String urlStr, String data) {
 		return postData(urlStr, data, null);

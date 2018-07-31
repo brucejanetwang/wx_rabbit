@@ -15,4 +15,11 @@ public class WXBindService {
     public WXBindInfo getUserByWXOpenID(String WXOpenID){
         return  wxBindMapper.getUserByWXOpenID(WXOpenID);
     }
+
+    public void UNBind(String wxOpenID) {
+        wxBindMapper.UNBind(wxOpenID);
+    }
+    public void Bind(String wxOpenID,String sysUserID) {
+        wxBindMapper.Bind(wxOpenID,sysUserID);
+    }
 }

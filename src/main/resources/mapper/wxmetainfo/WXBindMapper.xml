@@ -2,19 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.northtech.WeChat.wxmetainfo.mapper.WXBindMapper">
-
-    <!-- find user -->
-    <select id="getUserByWXOpenID"   resultType="com.northtech.WeChat.wxmetainfo.bean.WXBindInfo">
-        SELECT
-
+    <sql id="WXBindCloumns">
         wx_open_id AS `wxOpenId`,
         sys_user_id AS `bindUserId.id`,
         state AS `state`,
         create_date AS `createDate`,
         update_date AS `updateDate`
-
-        FROM business_wx_bind  where wx_open_id=1  LIMIT 1;
-
+    </sql>
+    <!-- find user -->
+    <select id="getUserByWXOpenID"   resultType="com.northtech.WeChat.wxmetainfo.bean.WXBindInfo">
+        SELECT
+        <include refid="WXBindCloumns" />
+        FROM business_wx_bind  where wx_open_id=#{wxOpenID};
     </select>
+
+    <delete id="UNBind">
+        delete from business_wx_bind
+        where wx_open_id=#{wxOpenID};
+    </delete>
+
+    <insert id="Bind">
+        insert into business_wx_bind(
+          wx_open_id,
+          sys_user_id
+        )
+        VALUES (
+          #{wxOpenID},
+          #{sysUserID}
+        )
+    </insert>
+
+
 
 </mapper>

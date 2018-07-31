@@ -6,7 +6,10 @@ import java.util.Arrays;
 
 public class SignUtil {
 
-	    public static boolean checkSignature(String signature, String timestamp,String nonce) {
+
+
+
+	    public static boolean CheckSignature(String signature, String timestamp, String nonce) {
 	        // 1.将token、timestamp、nonce三个参数进行字典序排序
 	        String[] arr = new String[] { WXConfigUtil.TOKEN, timestamp, nonce };
 	        Arrays.sort(arr);

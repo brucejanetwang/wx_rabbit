@@ -26,8 +26,8 @@ public class WXEventDispatcherService {
 	WXBindService wxBindService;
 	@Autowired
 	WXEventLogService wxEventLogService;
-	private String WXBindHttpUrl = "/wx_register";
-	private String WXBindPayShopUrl = "/xxx";
+	private String WXBindHttpUrl = "/wx_register/bind";
+	private String WXBindPayShopUrl = "/wx_pay_shop/to_pay";
 	/**
 	 * 处理微信菜单的点击事件 param：微信发来的请求数据集合 xml——>map
 	 */
@@ -42,6 +42,7 @@ public class WXEventDispatcherService {
 		tm.setMsgType(WXMessageParseUtil.RESP_MESSAGE_TYPE_TEXT);
 		tm.setCreateTime(new Date().getTime());
 		if (map.get("Event").equals(WXMessageParseUtil.EVENT_TYPE_SUBSCRIBE)) { // 关注事件
+			wxEventLogService.RecordSubscribe(WXOpenID);
 			// 首先判断该用户是否第一次关注,通过查找数据库中是否存在该OppenId
 			WXBindInfo  wxBindInfo = wxBindService.getUserByWXOpenID(WXOpenID);
 			if (wxBindInfo == null) {
@@ -54,7 +55,7 @@ public class WXEventDispatcherService {
 						+ "?openid=" + WXOpenID
 						+ "&quot;&gt;点此进行绑定&lt;/a&gt;";
 				tm.setContent(msg);
-				wxEventLogService.RecordSubscribe(WXOpenID);
+
 				logger.info(WXOpenID + "进入首次关注处理事件");
 			} else if (wxBindInfo.getState() == WXBindInfo.CONST_STATE_BIND_NO) {
 				/*
@@ -72,23 +73,25 @@ public class WXEventDispatcherService {
 			}
 
 		}
-		if (map.get("Event").equals(WXMessageParseUtil.EVENT_TYPE_UNSUBSCRIBE)) { // 取消关注事件
-			// 宅付通 少一个解绑定功能
+		else if (map.get("Event").equals(WXMessageParseUtil.EVENT_TYPE_UNSUBSCRIBE)) { // 取消关注事件
 			wxEventLogService.RecordUNSubscribe(WXOpenID);
+
+			wxBindService.UNBind(WXOpenID);
+
 			logger.info("进入取消关注处理事件");
 		} 
 		// =============== 用户未绑定，也可以使用的相关点击菜单功能 start============
 
-		if (map.get("Event").equals(WXMessageParseUtil.EVENT_TYPE_SCAN)) {
+		else if (map.get("Event").equals(WXMessageParseUtil.EVENT_TYPE_SCAN)) {
+			logger.info("==============这是扫描二维码事件！================");
 			// 扫描二维码事件
-			System.out.println("==============这是扫描二维码事件！================");
 		}
-		if (map.get("Event").equals(WXMessageParseUtil.EVENT_SCANCODE_WAITMSG)) {
+		else if (map.get("Event").equals(WXMessageParseUtil.EVENT_SCANCODE_WAITMSG)) {
 			// 扫描二维码事件
 			//不安全，url容易伪造； 解决方法直接过去，用session获取openid； 或者加时间限制
 			//目前token 是时间字符串， 需要加一个盐 salt 校验才行
 			String result = map.get("ScanResult");//二维码中获取到的商家信息json字符串
-			
+			logger.info("==============这是扫描二维码等待事件！================");
 			String jsonStr = "";
 			try {
 				jsonStr = DesSecretUtil.decryptDES(result);
@@ -133,14 +136,21 @@ public class WXEventDispatcherService {
 			
 		}
 
-		if (map.get("Event").equals(WXMessageParseUtil.EVENT_TYPE_LOCATION)) {
+		else  if (map.get("Event").equals(WXMessageParseUtil.EVENT_TYPE_LOCATION)) {
 			// 位置上报事件
-			System.out.println("==============这是位置上报事件！=================");
+			logger.info("==============这是位置上报事件=============");
 		}
-
-		if (map.get("Event").equals(WXMessageParseUtil.EVENT_TYPE_VIEW)) {
+		else if (map.get("Event").equals(WXMessageParseUtil.EVENT_TYPE_VIEW)) {
 			// 自定义菜单View事件
-			logger.info("==============自定义菜单View事件Start=============");
+			String eventKey = map.get("EventKey");
+			logger.info("自定义菜单View事件,EventKey="+eventKey);
+		}
+		else if (map.get("Event").equals(WXMessageParseUtil.EVENT_TYPE_CLICK)){
+			String eventKey = map.get("EventKey");
+			logger.info("自定义菜单Click事件,EventKey="+eventKey);
+		}
+		else{
+
 		}
 
 		if (respXML == null) {

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.northtech.WeChat.wxmetainfo.mapper.WXEventLogMapper">
+    <sql id="WXEventLogColumns">
+        a.wx_open_id as "wxOpenId",
+        a.event_type as "eventType",
+        a.create_data as "createDate",
+        a.update_data as "updateDate"
+    </sql>
+    <select id="findHistory" resultType="com.northtech.WeChat.wxmetainfo.bean.WXEventLogInfo" >
+        select
+        <include refid="WXEventLogColumns" />
+        from business_wx_event_log
+        where  a.wx_open_id=#{wxOpenID}
+    </select>
+
+    <insert id="RecordSubscribe">
+        insert into business_wx_event_log(
+        wx_open_id,
+        event_type
+        )
+        VALUES(
+          #{wxOpenID},
+          1
+        );
+    </insert>
+     <insert id="RecordUNSubscribe">
+        insert into business_wx_event_log(
+        wx_open_id,
+        event_type
+        )
+        VALUES(
+          #{wxOpenID},
+          0
+        );
+     </insert>
+</mapper>
