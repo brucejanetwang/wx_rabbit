@@ -18,8 +18,10 @@ public class WXBindService {
 
     public void UNBind(String wxOpenID) {
         wxBindMapper.UNBind(wxOpenID);
+        wxBindMapper.History_UNBind(wxOpenID);
     }
     public void Bind(String wxOpenID,String sysUserID) {
         wxBindMapper.Bind(wxOpenID,sysUserID);
+        wxBindMapper.History_Bind(wxOpenID,sysUserID);
     }
 }

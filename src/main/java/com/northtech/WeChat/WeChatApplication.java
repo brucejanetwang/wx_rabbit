@@ -14,7 +14,7 @@ public class WeChatApplication {
 	public static void main(String[] args) throws InterruptedException {
 		SpringApplication.run(WeChatApplication.class, args);
 		WXConfigUtil.init("wxinfo.properties");//微信
-		while(WXConfigUtil.refreshAccessToken()){
+		while(!WXConfigUtil.refreshAccessToken()){
 			Thread.sleep(5000);
 		}
 	}

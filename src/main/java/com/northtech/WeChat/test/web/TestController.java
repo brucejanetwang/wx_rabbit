@@ -27,7 +27,7 @@ public class TestController {
 
     @RequestMapping("/test2")
     public SysUser test2() {
-        return sysUserService.find(1);
+        return sysUserService.find("1");
     }
 
     @RequestMapping("/")

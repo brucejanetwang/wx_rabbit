@@ -3,9 +3,26 @@
 
 <mapper namespace="com.northtech.WeChat.test.mapper.SysUserMapper">
 
+    <sql id="SysUserCloumns">
+        id,
+        name ,
+        password ,
+        mobile
+    </sql>
+
     <!-- find user -->
-    <select id="find" parameterType="int" resultType="com.northtech.WeChat.test.bean.SysUser">
-        SELECT name as username,password  as password, 21 as age,id FROM sys_user  WHERE ID='1'
+    <select id="find"  resultType="com.northtech.WeChat.test.bean.SysUser">
+        SELECT 
+        <include refid="SysUserCloumns"/>
+        FROM sys_user  WHERE id=#{id}
     </select>
+
+    <select id="findByMobile" resultType="com.northtech.WeChat.test.bean.SysUser">
+        SELECT
+        <include refid="SysUserCloumns"/>
+        FROM sys_user  WHERE mobile=#{mobile}
+    </select>
+
+
 
 </mapper>

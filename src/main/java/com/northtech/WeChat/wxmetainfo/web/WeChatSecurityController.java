@@ -25,9 +25,11 @@ public class WeChatSecurityController {
     @Autowired
     WXEventDispatcherService wxEventDispatcherService;
 
-    @RequestMapping("/wx_createmenu")
-    public  @ResponseBody   String  wxCreateMenu() {
-
+    @RequestMapping("/wx_createmenu/{passwd}")
+    public  @ResponseBody   String  wxCreateMenu(@PathVariable String passwd) {
+        if(!passwd.equals("bsec")){
+            return "ok.";
+        }
         String requestUrl =  WXConfigUtil.MENU_CREATE_URL.replace("ACCESS_TOKEN", WXConfigUtil.ACCESS_TOKEN );
         String menujson = WXConfigUtil.getMenuJsonString();
 
@@ -48,6 +50,18 @@ public class WeChatSecurityController {
         return "";
 
     }
+    @RequestMapping("/wx_querymenu/{passwd}")
+    public  @ResponseBody   String  wxQueryMenu(@PathVariable String passwd) {
+        if(!passwd.equals("bsec")){
+            return "ok.";
+        }
+        String requestUrl =  WXConfigUtil.MENU_GET_URL.replace("ACCESS_TOKEN", WXConfigUtil.ACCESS_TOKEN );
+        String respJSON =  HttpUtil.httpsPostRequest(requestUrl,  "");
+        JSONObject jsonObject  =	JSONObject.fromObject(respJSON);
+        return jsonObject.toString();
+
+    }
+
 
 
     @RequestMapping("/wx_test")

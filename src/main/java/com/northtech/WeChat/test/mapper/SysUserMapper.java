@@ -5,5 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface SysUserMapper {
-    SysUser find(int id);
+    SysUser find(String id);
+    SysUser findByMobile(String mobile);
 }

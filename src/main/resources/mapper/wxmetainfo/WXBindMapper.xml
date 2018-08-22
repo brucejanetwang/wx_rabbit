@@ -24,14 +24,35 @@
     <insert id="Bind">
         insert into business_wx_bind(
           wx_open_id,
-          sys_user_id
+          sys_user_id,
+          state
         )
         VALUES (
           #{wxOpenID},
-          #{sysUserID}
+          #{sysUserID},
+          1
         )
     </insert>
-
-
-
+    <insert id="History_UNBind">
+        insert into business_wx_bind_history(
+        wx_open_id,
+        state
+        )
+        VALUES (
+        #{wxOpenID},
+        0
+        )
+    </insert>
+    <insert id="History_Bind">
+        insert into business_wx_bind_history(
+        wx_open_id,
+        sys_user_id,
+        state
+        )
+        VALUES (
+        #{wxOpenID},
+        #{sysUserID},
+        1
+        )
+    </insert>
 </mapper>

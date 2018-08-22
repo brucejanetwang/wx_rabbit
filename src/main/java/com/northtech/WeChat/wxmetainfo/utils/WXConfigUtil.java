@@ -11,9 +11,7 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 
 public class WXConfigUtil {
-
 	private static final Logger logger = LoggerFactory.getLogger(WXConfigUtil.class);
-
 	private static Configuration configs;
 	public  static String APP_ID;// 服务号的应用ID
 	public  static String APP_SECRET;// 服务号的应用密钥
@@ -76,7 +74,11 @@ public class WXConfigUtil {
 	}
 
 
-	public static boolean checkWXMenuCallBackParse(HttpServletRequest request){
+	public static boolean checkWXMenuCallBackParse(HttpServletRequest request,boolean fake){
+		if(fake){
+			request.getSession().setAttribute("wx_open_id", "fake_open_id");
+			return true;
+		}
 		String code = request.getParameter("code");
 		String state = request.getParameter("state");
 		if(!state.equals(OAUTH2_STATEVALUE)){
@@ -103,7 +105,7 @@ public class WXConfigUtil {
 		//菜的按钮触发事件url 前缀
 		String wx_oauth2_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + APP_ID;
 		String button_http_url_placeholder = "REPLACE_BUS_ACTIONURL";
-		String final_button_http_url = wx_oauth2_url + "&redirect_uri=" + WXSITE_ROOT_HTTPURL + button_http_url_placeholder + "&response_type=code&scope=snsapi_base&state="+OAUTH2_STATEVALUE+"#wechat_redirect";
+		String final_button_http_url = wx_oauth2_url + "&redirect_uri=" + WXSITE_ROOT_HTTPURL+ "/wxaction_menuview/" + button_http_url_placeholder + "&response_type=code&scope=snsapi_base&state="+OAUTH2_STATEVALUE+"#wechat_redirect";
 		String bus_button_actionurl = "";
 
 		// 1号二级点击菜单
@@ -142,19 +144,19 @@ public class WXConfigUtil {
 		ViewButton subbtn21 = new ViewButton();
 		subbtn21.setName("绑定/解除");
 		subbtn21.setType("view");
-		bus_button_actionurl = "/wxaction_register/unbind";
+		bus_button_actionurl = "unbind";
 		subbtn21.setUrl(final_button_http_url.replace(button_http_url_placeholder,bus_button_actionurl));
 
 		ViewButton subbtn22 = new ViewButton();
 		subbtn22.setName("我要充值");
 		subbtn22.setType("view");
-		bus_button_actionurl = "/mobileWechatRecharge";
+		bus_button_actionurl = "/charge";
 		subbtn22.setUrl(final_button_http_url.replace(button_http_url_placeholder,bus_button_actionurl));
 
 		ViewButton subbtn23 = new ViewButton();
 		subbtn23.setName("会员信息");
 		subbtn23.setType("view");
-		bus_button_actionurl = "/mobilePersonPayment";
+		bus_button_actionurl = "/person";
 		subbtn23.setUrl(final_button_http_url.replace(button_http_url_placeholder,bus_button_actionurl));
 
 		ClickButton subbtn24 = new ClickButton();

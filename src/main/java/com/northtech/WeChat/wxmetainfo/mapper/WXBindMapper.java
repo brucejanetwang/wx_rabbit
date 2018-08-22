@@ -11,4 +11,8 @@ public interface WXBindMapper {
     void UNBind(@Param("wxOpenID") String wxOpenID);
 
     void Bind(@Param("wxOpenID")String wxOpenID, @Param("sysUserID")String sysUserID);
+
+    void History_UNBind(@Param("wxOpenID")String wxOpenID);
+
+    void History_Bind(@Param("wxOpenID")String wxOpenID, @Param("sysUserID")String sysUserID);
 }

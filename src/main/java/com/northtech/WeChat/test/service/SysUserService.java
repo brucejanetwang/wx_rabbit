@@ -11,7 +11,13 @@ import org.springframework.stereotype.Service;
 public class SysUserService {
     @Autowired
     SysUserMapper sysUserMapper;
-    public SysUser find(int id) {
+
+    public SysUser find(String id) {
         return sysUserMapper.find(id);
     }
+
+    public SysUser findByMobile(String mobile) {
+        return sysUserMapper.findByMobile(mobile);
+    }
+
 }
