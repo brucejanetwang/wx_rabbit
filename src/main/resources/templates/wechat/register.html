@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <link th:href="@{/wechat/weui.css}" rel="stylesheet"/>
+</head>
+<body>
+	<form action="/wxaction_register/save_bind"  id="loginForm"  method="post">
+            <div class="page__hd">
+                <h1 class="page__title">登录</h1>
+            </div>
+            <img class="weui-icon_msg" th:href="@{/img/background.jpeg}"> </img>
+            <input type="hidden"  id="wx_open_id" name="wx_open_id"  th:value="${wx_open_id}" /> 
+
+			<div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="name" type="text"  pattern="*" placeholder="请输入姓名">
+                </div>
+            </div>
+
+			<div class="weui-cell weui-cell_vcode">
+				<div class="weui-cell__hd"><label class="weui-label">手机</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="mobile" type="tel" placeholder="请输入手机号">
+                </div>
+
+            </div>
+            <div class="weui-cell weui-cell_vcode">
+				<div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" placeholder="请输入图形验证码">
+                </div>
+                <div class="weui-cell__ft">
+                    <img class="weui-vcode-img"  th:href="@{/img/vcode.jpg}" >
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_vcode">
+            	<div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" placeholder="请输入短信验证码，5分钟有效">
+                </div>
+                <div class="weui-cell__ft">
+                    <button class="weui-vcode-btn">获取验证码</button>
+                </div>
+            </div>
+
+            <label for="weuiAgree" class="weui-agree">
+                <input id="weuiAgree" name="agree" type="checkbox" class="weui-agree__checkbox">
+                <span class="weui-agree__text">
+                阅读并同意<a href="javascript:void(0);">《相关条款》</a>
+            </span>
+            </label>
+            <div class="weui-btn-area">
+            	  <button type="submit"   class="weui-btn weui-btn_primary" >确定</button> 
+        	</div>
+        </form>
+</body>
+
+</html>
