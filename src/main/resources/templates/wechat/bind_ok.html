@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head> 
+      <link th:href="@{/wechat/weui.css}" rel="stylesheet"/>
+</head>
+<body>
+
+
+<div class="weui-msg">
+    <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+    <div class="weui-msg__text-area">
+        <h2 class="weui-msg__title">绑定成功！</h2>
+
+    </div>
+    <div class="weui-msg__opr-area">
+        <p class="weui-btn-area">
+            <a href="javascript:;" class="weui-btn weui-btn_primary" onclick="WeixinJSBridge.call('closeWindow');">完成</a>
+
+        </p>
+    </div>
+    <div class="weui-msg__extra-area">
+        <div class="weui-footer">
+            <p class="weui-footer__links">
+                <a href="javascript:void(0);" class="weui-footer__link" >西安北科软件</a>
+            </p>
+            <p class="weui-footer__text">Copyright © 2008-2016 weui.io</p>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>
