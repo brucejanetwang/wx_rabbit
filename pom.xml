@@ -137,6 +137,20 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!--  云片短信 Start-->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.4.10</version>
+		</dependency>
+
+		<!--  云片短信 End -->
 	</dependencies>
 
 	<build>
@@ -148,7 +162,7 @@
                     <fork>true</fork><!-- fork:如果没有该配置，这个devtools不会起作用，即应用不会restart -->
                 </configuration>
 			</plugin>
-		</plugins>
+		</plugins><!--build-->
 	</build>
 
 

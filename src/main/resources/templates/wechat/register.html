@@ -1,6 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
+    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link th:href="@{/wechat/weui.css}" rel="stylesheet"/>
 </head>
 <body>
@@ -18,29 +20,21 @@
                 </div>
             </div>
 
-			<div class="weui-cell weui-cell_vcode">
+			<div class="weui-cell">
 				<div class="weui-cell__hd"><label class="weui-label">手机</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" name="mobile" type="tel" placeholder="请输入手机号">
+                    <input class="weui-input" name="mobile" id="mobile" type="tel" placeholder="请输入手机号">
                 </div>
 
             </div>
-            <div class="weui-cell weui-cell_vcode">
-				<div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" placeholder="请输入图形验证码">
-                </div>
-                <div class="weui-cell__ft">
-                    <img class="weui-vcode-img"  th:href="@{/img/vcode.jpg}" >
-                </div>
-            </div>
+
             <div class="weui-cell weui-cell_vcode">
             	<div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" placeholder="请输入短信验证码，5分钟有效">
+                    <input class="weui-input" type="number" placeholder="请输入短信验证码">
                 </div>
                 <div class="weui-cell__ft">
-                    <button class="weui-vcode-btn">获取验证码</button>
+                    <button class="weui-vcode-btn"  type="button"    id="btn_get_vcode">获取码</button>
                 </div>
             </div>
 
@@ -54,6 +48,40 @@
             	  <button type="submit"   class="weui-btn weui-btn_primary" >确定</button> 
         	</div>
         </form>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="application/javascript">
+        jQuery(function(){
+            $("#btn_get_vcode").click(function(){
+                var $wxOpenId = $("#wx_open_id").val();
+                var $mobile = $("#mobile").val();
+                var $vcode =  "[[${vcode}]]";
+                var data = {wx_open_id:$wxOpenId,mobile:$mobile,vcode:$vcode};
+                $.ajax(
+                    {
+                        url: "/tools/sendvcode",
+                        type: 'POST',
+                        data: data,
+                        datatype: 'json',
+                        success: function (data) { process_sms_send_ok(); },
+                        error: function (jqXHR, textStatus, errorThrown) { process_sms_send_error(); }
+                    }
+                );
+            })
+
+        });
+        function  on_getVcode_click (){
+
+
+        }
+
+        function process_sms_send_ok() {
+            $("#btn_get_vcode").hide();
+        }
+        function process_sms_send_error () {
+            $("#btn_get_vcode").show();
+        }
+
+    </script>
 </body>
 
 </html>
