@@ -31,6 +31,9 @@ public class WeChatRegressController {
     public String save_bind( HttpServletRequest request ,Model model) {
         String wx_open_id = (String) request.getSession().getAttribute("wx_open_id");
         Map<String, String[]> parameterMap = request.getParameterMap();
+        if (! parameterMap.containsKey("wx_open_id")){
+            return "/sys/common_error";
+        }
         String req_wx_open_id = parameterMap.get("wx_open_id")[0];
         String mobile = parameterMap.get("mobile")[0];
 

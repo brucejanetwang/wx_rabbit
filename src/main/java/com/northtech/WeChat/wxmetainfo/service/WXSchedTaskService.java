@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class WXSchedTaskService {
     private static final Logger logger = LoggerFactory.getLogger(WXSchedTaskService.class);
 
-    @Scheduled(initialDelay =  360*1000, fixedDelay = 700*1000 )
+    @Scheduled(initialDelay =  1600*1000, fixedDelay = 700*1000 )
     public void getWeixinAccessToken() throws InterruptedException {
         logger.info("getWeixinAccessToken begin.");
 

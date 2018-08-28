@@ -8,7 +8,9 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class WXConfigUtil {
 	private static final Logger logger = LoggerFactory.getLogger(WXConfigUtil.class);
@@ -74,10 +76,21 @@ public class WXConfigUtil {
 	}
 
 
-	public static boolean checkWXMenuCallBackParse(HttpServletRequest request,boolean fake){
+	public static boolean checkWXMenuCallBackParse(HttpServletRequest request, HttpServletResponse response,boolean fake){
 		if(fake){
 			request.getSession().setAttribute("wx_open_id", "fake_open_id");
 			return true;
+		}
+		Cookie[] cookies = request.getCookies();
+		//判断cookie中是否存在openid 若存在则直接跳过，不存在则获取一次
+		if(cookies!=null){
+			for(Cookie cookie : cookies){
+				if(cookie.getName().equals("openId")){
+					String openid = cookie.getValue();
+					request.getSession().setAttribute("wx_open_id", openid);
+					return true;
+				}
+			}
 		}
 		String code = request.getParameter("code");
 		String state = request.getParameter("state");
@@ -93,6 +106,13 @@ public class WXConfigUtil {
 			String refresh_token=jsonObject.getString("refresh_token");
 			String openid = jsonObject.getString("openid");
 			request.getSession().setAttribute("wx_open_id", openid);
+			logger.info("success get openid by code.");
+			//获取微信用户openid存储在cookie中的信息
+			Cookie userCookie=new Cookie("openId",openid);
+			userCookie.setMaxAge(-1);
+			userCookie.setPath("/");
+			response.addCookie(userCookie);
+
 		}catch (Exception e){
 			return false;
 		}
