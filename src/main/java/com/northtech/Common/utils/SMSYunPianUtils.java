@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.northtech.J2EE.util.CommonConfigUtil;
 import net.sf.json.JSONObject;
 import org.apache.http.Consts;
 import org.apache.http.HttpHost;
@@ -25,7 +26,6 @@ import org.slf4j.LoggerFactory;
 
 public class SMSYunPianUtils {
 		private static Logger logger = LoggerFactory.getLogger(SMSYunPianUtils.class); 
-	    private static final String PHONE_MSG_API_KEY = "fdc60fd9d891cff94c6cb31b4bb6331f";
 	    private static final Boolean IS_WITH_PROXY = false;
 
 	    /**
@@ -38,11 +38,11 @@ public class SMSYunPianUtils {
 	     * { "code": 0, "msg": "发送成功", "count": 1, //成功发送的短信计费条数 "fee": 0.05, //扣费条数，70个字一条，超出70个字时按每67字一条计 "unit": "RMB",
 	     * // 计费单位 "mobile": "13200000000", // 发送手机号 "sid": 3310228982 // 短信ID }
 	     */
-	    public boolean singleSendMsg(String phoneNo, String text)
+	    public boolean singleSendMsg(String phoneNo, String text ,String apiKey)
 	    {
 	        // 请求参数集合
 	        Map<String, String> params = new HashMap<String, String>();
-	        params.put("apikey", PHONE_MSG_API_KEY);
+	        params.put("apikey", apiKey);
 	        params.put("text", text);
 	        params.put("mobile", phoneNo);
 	        String jsonstr =  post("https://sms.yunpian.com/v2/sms/single_send.json", params);
@@ -132,7 +132,7 @@ public class SMSYunPianUtils {
 	    	 String signname = "【西安北科】";
 	    	 String scontext = signname+"您的验证码是1234";
 	    	 int sendtime = 0;
-	    	 while(sendtime<3 &&  !(new SMSYunPianUtils()).singleSendMsg(to_mobile,scontext) ){
+	    	 while(sendtime<3 &&  !(new SMSYunPianUtils()).singleSendMsg(to_mobile,scontext, CommonConfigUtil.YUNPIAN_SECRET) ){
 			 		sendtime++;
 			 }
 	     }
