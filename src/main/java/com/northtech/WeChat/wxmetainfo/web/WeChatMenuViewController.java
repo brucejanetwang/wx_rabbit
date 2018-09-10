@@ -36,13 +36,33 @@ public class WeChatMenuViewController {
 
     }
 
-    @ResponseBody
+
+
+    @RequestMapping("/charge")
+    public String charge(HttpServletRequest request ,Model model){
+        logger.info(request.getSession().getAttribute("wx_open_id") + " want to bind.");
+        String wx_open_id = (String) request.getSession().getAttribute("wx_open_id");
+        model.addAttribute("balance",100);
+        model.addAttribute("amount",8);
+        model.addAttribute("wx_open_id",wx_open_id);
+        model.addAttribute("personName","王联辰");
+        model.addAttribute("CardNum","P_1232323");
+        //个人中心查看账户余额
+        return "/wechat/membership_card_charge";
+    }
     @RequestMapping("/person")
     public String person(HttpServletRequest request ,Model model){
         logger.info(request.getSession().getAttribute("wx_open_id") + " want to bind.");
         String wx_open_id = (String) request.getSession().getAttribute("wx_open_id");
-        return "person info";
+        model.addAttribute("balance",100);
+        model.addAttribute("wx_open_id",wx_open_id);
+        model.addAttribute("personName","王联辰");
+        model.addAttribute("CardNum","P_1232323");
+        //个人中心查看账户余额
+        return "/wechat/membership_card_charge";
     }
+
+
 
 
 }

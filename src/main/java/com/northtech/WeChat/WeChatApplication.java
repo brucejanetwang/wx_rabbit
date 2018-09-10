@@ -16,7 +16,7 @@ public class WeChatApplication {
 		SpringApplication.run(WeChatApplication.class, args);
 
 		CommonConfigUtil.init("common.properties");
-        boolean  enable_weixin_funtino = false;
+        boolean  enable_weixin_funtino = true;
         if (enable_weixin_funtino) {
             WXConfigUtil.init("wxinfo.properties");//微信
             while (!WXConfigUtil.refreshAccessToken()) {

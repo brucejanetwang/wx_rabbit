@@ -1,0 +1,120 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="../../static/wechat/weui.css"  th:href="@{/wechat/weui.css}" rel="stylesheet"/>
+    <style>
+        body{
+            background-color: #eee;
+        }
+        .weui-cell__ft{
+            color: #282828;
+        }
+        .weui-btn_default{
+            background-color: #5194F3;
+            color: white;
+        }
+        .weui-msg{
+            padding-top: 70px;
+        }
+        .weui-msg__opr-area{
+            margin-top: 100px;
+        }
+        .weui-msg__title{
+            margin-bottom: 30px;
+        }
+        .weui-msg__icon-area{
+            margin-bottom: 10px;
+        }
+    </style>
+
+</head>
+<body>
+<input type="hidden" name ="wx_open_id" th:value="${wx_open_id}"/>
+<input type="hidden" name ="balance" th:value="${balance}"/>
+<div style="width: 100%;height: 100%" id="main">
+
+    <div class="page__hd">
+        <h1 class="page__title">充值</h1>
+    </div>
+    <div class="weui-form-preview" style="margin: 10px 0px 0 0px">
+        <div class="weui-cells" style="margin-top: 0">
+
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <p>姓名</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <span th:text="${personName}">Saturn</span>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <p>卡号</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <span th:text="${CardNum}">1111111</span>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <p>充值金额</p>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="amount" value="88" type="text"  th:value="${amount}"  pattern="*" placeholder="请充值金额">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-msg__opr-area" style="margin-top: 70px" id="pay">
+        <p class="weui-btn-area">
+            <input type="button" class="weui-btn weui-btn_default" id="release" value="确认支付"   onclick="toPay()">
+        </p>
+    </div>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="application/javascript">
+        jQuery(function() {
+
+
+        });
+
+        function toPay(){
+        //支付金额不为空判定
+            $.ajax({
+                url:"/wxaction_pay/get_prepay_info",
+                type:"get",
+                data:{wx_open_id:$("input[name=wx_open_id]").val(),amount:$("input[name=amount]").val()},
+                dataType:"json",
+                success : function(data){
+                    if(data.status=="success"){
+                        var jsParam=data.jsParam;
+                        WeixinJSBridge.invoke(
+                            'getBrandWCPayRequest'
+                            ,jsParam
+                            ,function(res){
+                                WeixinJSBridge.log(res.err_msg);
+                                if(res.err_msg=='get_brand_wcpay_request:ok')
+                                {
+                                    alert("sucess");
+                                    window.location.href="${ctx}/personaccountview";
+                                }
+                                else
+                                {
+                                    var msg='支付失败,请重新支付.';
+                                    alert(res.err_msg);
+                                }
+                            });
+                    }
+                }
+            })
+
+        };
+    </script>
+</body>
+
+</html>

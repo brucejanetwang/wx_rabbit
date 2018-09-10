@@ -28,6 +28,8 @@ public class WXConfigUtil {
 
 	public static String OAUTH2_STATEVALUE; //微信menu url接口state参数值
 
+	public static String PAY_NOTICEURL;
+	public static int PAY_EXPIRE_MINS;
 
 	public static synchronized void init(String filePath) {
 		if (configs != null) {
@@ -52,6 +54,9 @@ public class WXConfigUtil {
 		CERT_PATH = configs.getString("CERT_PATH");
 		WXSITE_ROOT_HTTPURL = configs.getString("WXSITE_ROOT_HTTPURL");
 		OAUTH2_STATEVALUE = configs.getString("OAUTH2_STATEVALUE");
+		PAY_NOTICEURL =  WXSITE_ROOT_HTTPURL + configs.getString("PAY_NOTICEURL");
+		PAY_EXPIRE_MINS = configs.getInt("PAY_EXPIRE_MINS");
+
 	}
 
 	public static synchronized boolean refreshAccessToken() {
