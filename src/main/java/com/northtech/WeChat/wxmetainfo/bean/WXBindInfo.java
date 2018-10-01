@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class WXBindInfo implements Serializable{
-
+    private static final long serialVersionUID = 1L;
     public final  static  int   CONST_STATE_BIND_YES = 1;
     public final  static  int   CONST_STATE_BIND_NO = 0;
 

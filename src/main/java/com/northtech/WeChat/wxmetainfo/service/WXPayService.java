@@ -124,4 +124,7 @@ public class WXPayService {
     }
 
 
+    public void saveChargePay(String trade_key_info, String trade_key_info1, String wx_open_id, String mchId, String card_num) {
+        //to table business_wx_charge
+    }
 }

@@ -278,4 +278,9 @@ public class WXConfigUtil {
 	// 接口调用上报接口(POST)
 	public final static String REPORT_URL = "https://api.mch.weixin.qq.com/payitil/report";
 
+
+	public final static String WX_CHARGE_TRADEINFO_PREX = "101";
+	public final static String WX_SHOP_TRADEINFO_PREX = "102";
+
+
 }
