@@ -1,4 +1,4 @@
-package com.northtech.WeChat.wxmetainfo.bean;
+package com.northtech.WeChat.wxmetainfo.bean.wxevent;
 
 import com.northtech.WeChat.test.bean.SysUser;
 

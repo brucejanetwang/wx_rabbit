@@ -1,7 +1,6 @@
 package com.northtech.WeChat.wxmetainfo.mapper;
 
-import com.northtech.WeChat.wxmetainfo.bean.WXBindInfo;
-import com.northtech.WeChat.wxmetainfo.bean.WXEventLogInfo;
+import com.northtech.WeChat.wxmetainfo.bean.wxevent.WXEventLogInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

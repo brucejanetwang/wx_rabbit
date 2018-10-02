@@ -8,7 +8,7 @@
         a.create_data as "createDate",
         a.update_data as "updateDate"
     </sql>
-    <select id="findHistory" resultType="com.northtech.WeChat.wxmetainfo.bean.WXEventLogInfo" >
+    <select id="findHistory" resultType="com.northtech.WeChat.wxmetainfo.bean.wxevent.WXEventLogInfo" >
         select
         <include refid="WXEventLogColumns" />
         from business_wx_event_log
